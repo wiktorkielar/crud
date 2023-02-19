@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.wiktorkielar.crud.CommonStrings.*;
+import static com.wiktorkielar.crud.util.CommonStrings.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToCompressingWhiteSpace;
 import static org.mockito.Mockito.when;

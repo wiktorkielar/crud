@@ -5,6 +5,7 @@ import com.wiktorkielar.crud.model.EmployeeResponse;
 import com.wiktorkielar.crud.service.CsvGenerationService;
 import com.wiktorkielar.crud.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.core.io.InputStreamResource;
@@ -17,6 +18,7 @@ import java.io.PrintWriter;
 
 import static com.wiktorkielar.crud.util.CommonStrings.ALL_EMPLOYEES;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DefaultCsvGenerationService implements CsvGenerationService {

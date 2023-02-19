@@ -1,5 +1,6 @@
 package com.wiktorkielar.crud.handler;
 
+import com.wiktorkielar.crud.exception.CsvGenerationException;
 import com.wiktorkielar.crud.exception.EmployeeAlreadyExistsException;
 import com.wiktorkielar.crud.exception.EmployeeNotFoundException;
 import com.wiktorkielar.crud.exception.NoEmployeesFoundException;
@@ -27,6 +28,12 @@ public class ApplicationExceptionHandler {
     @ExceptionHandler(value = {EmployeeNotFoundException.class, NoEmployeesFoundException.class})
     public Map<String, String> handleEmployeeAndEmployeesNotFoundExceptions(RuntimeException ex) {
 
+        return handleEmployeeExceptions(ex);
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = {CsvGenerationException.class})
+    public Map<String, String> handleCsvGenerationException(RuntimeException ex) {
         return handleEmployeeExceptions(ex);
     }
 

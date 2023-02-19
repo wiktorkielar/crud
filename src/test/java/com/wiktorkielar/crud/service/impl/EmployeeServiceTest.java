@@ -1,4 +1,4 @@
-package com.wiktorkielar.crud.service;
+package com.wiktorkielar.crud.service.impl;
 
 import com.wiktorkielar.crud.exception.EmployeeAlreadyExistsException;
 import com.wiktorkielar.crud.exception.EmployeeNotFoundException;
@@ -6,7 +6,6 @@ import com.wiktorkielar.crud.model.EmployeeEntity;
 import com.wiktorkielar.crud.model.EmployeeRequest;
 import com.wiktorkielar.crud.model.EmployeeResponse;
 import com.wiktorkielar.crud.repository.EmployeeRepository;
-import com.wiktorkielar.crud.service.impl.DefaultEmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.wiktorkielar.crud.CommonStrings.*;
+import static com.wiktorkielar.crud.util.CommonStrings.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;

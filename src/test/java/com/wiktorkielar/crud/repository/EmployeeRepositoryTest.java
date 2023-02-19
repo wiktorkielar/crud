@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.wiktorkielar.crud.CommonStrings.*;
+import static com.wiktorkielar.crud.util.CommonStrings.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest

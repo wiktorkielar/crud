@@ -9,6 +9,7 @@ import com.wiktorkielar.crud.model.EmployeeResponse;
 import com.wiktorkielar.crud.repository.EmployeeRepository;
 import com.wiktorkielar.crud.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DefaultEmployeeService implements EmployeeService {
@@ -37,13 +39,7 @@ public class DefaultEmployeeService implements EmployeeService {
                     .created(LocalDateTime.now())
                     .build());
 
-            return EmployeeResponse.builder()
-                    .uuid(savedEmployeeEntity.getUuid())
-                    .firstName(savedEmployeeEntity.getFirstName())
-                    .lastName(savedEmployeeEntity.getLastName())
-                    .jobRole(savedEmployeeEntity.getJobRole())
-                    .created(savedEmployeeEntity.getCreated())
-                    .build();
+            return getEmployeeResponse(savedEmployeeEntity);
         }
     }
 
@@ -53,26 +49,14 @@ public class DefaultEmployeeService implements EmployeeService {
                 .findEmployeeEntityByUuid(uuid)
                 .orElseThrow(() -> new EmployeeNotFoundException(uuid));
 
-        return EmployeeResponse.builder()
-                .uuid(employeeEntity.getUuid())
-                .firstName(employeeEntity.getFirstName())
-                .lastName(employeeEntity.getLastName())
-                .jobRole(employeeEntity.getJobRole())
-                .created(employeeEntity.getCreated())
-                .build();
+        return getEmployeeResponse(employeeEntity);
     }
 
     @Override
     public List<EmployeeResponse> getAllEmployees() {
         List<EmployeeResponse> employeeResponseList = employeeRepository.findAll()
                 .stream()
-                .map(employeeEntity -> EmployeeResponse.builder()
-                        .uuid(employeeEntity.getUuid())
-                        .firstName(employeeEntity.getFirstName())
-                        .lastName(employeeEntity.getLastName())
-                        .jobRole(employeeEntity.getJobRole())
-                        .created(employeeEntity.getCreated())
-                        .build())
+                .map(this::getEmployeeResponse)
                 .toList();
 
         if (employeeResponseList.isEmpty()) {
@@ -98,13 +82,7 @@ public class DefaultEmployeeService implements EmployeeService {
                 .created(employeeEntity.getCreated())
                 .build());
 
-        return EmployeeResponse.builder()
-                .uuid(updatedEmployeeEntity.getUuid())
-                .firstName(updatedEmployeeEntity.getFirstName())
-                .lastName(updatedEmployeeEntity.getLastName())
-                .jobRole(updatedEmployeeEntity.getJobRole())
-                .created(updatedEmployeeEntity.getCreated())
-                .build();
+        return getEmployeeResponse(updatedEmployeeEntity);
     }
 
     @Override
@@ -113,5 +91,15 @@ public class DefaultEmployeeService implements EmployeeService {
                 .findEmployeeEntityByUuid(uuid)
                 .orElseThrow(() -> new EmployeeNotFoundException(uuid));
         employeeRepository.deleteByUuid(employeeEntity.getUuid());
+    }
+
+    private EmployeeResponse getEmployeeResponse(EmployeeEntity employeeEntity) {
+        return EmployeeResponse.builder()
+                .uuid(employeeEntity.getUuid())
+                .firstName(employeeEntity.getFirstName())
+                .lastName(employeeEntity.getLastName())
+                .jobRole(employeeEntity.getJobRole())
+                .created(employeeEntity.getCreated())
+                .build();
     }
 }

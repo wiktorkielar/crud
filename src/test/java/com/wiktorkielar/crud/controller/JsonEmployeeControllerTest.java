@@ -25,8 +25,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.wiktorkielar.crud.CommonStrings.*;
 import static com.wiktorkielar.crud.model.EmployeeRequest.MESSAGE_AT_LEAST_2_CHARACTERS;
+import static com.wiktorkielar.crud.util.CommonStrings.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;

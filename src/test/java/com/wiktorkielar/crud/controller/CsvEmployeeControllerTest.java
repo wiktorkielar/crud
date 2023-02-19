@@ -1,6 +1,7 @@
 package com.wiktorkielar.crud.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wiktorkielar.crud.exception.CsvGenerationException;
 import com.wiktorkielar.crud.exception.NoEmployeesFoundException;
 import com.wiktorkielar.crud.model.EmployeeResponse;
 import com.wiktorkielar.crud.service.CsvGenerationService;
@@ -22,7 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
 
-import static com.wiktorkielar.crud.CommonStrings.*;
+import static com.wiktorkielar.crud.util.CommonStrings.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -92,6 +93,23 @@ class CsvEmployeeControllerTest {
             resultActions.andExpect(MockMvcResultMatchers.status().isNotFound())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.message", CoreMatchers.is(expectedMessage)));
         }
-    }
 
+        @Test
+        @DisplayName("Should Not Serialize Object And Return Http Status 500 For getAllEmployees")
+        void shouldNotSerializeObjectAndReturnHttpStatus500ForGetAllEmployees() throws Exception {
+
+            //given
+            String expectedMessage = "CSV generation error for " + ALL_EMPLOYEES;
+
+            when(csvGenerationService.getAllEmployeesAsCsv()).thenThrow(new CsvGenerationException(ALL_EMPLOYEES));
+
+            //when
+            ResultActions resultActions = mockMvc.perform(get(apiBasePath + "/csv/employees")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE));
+
+            //then
+            resultActions.andExpect(MockMvcResultMatchers.status().isInternalServerError())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.message", CoreMatchers.is(expectedMessage)));
+        }
+    }
 }
